@@ -1,4 +1,4 @@
-package ru.practicum.yandex.model;
+package ru.practicum.yandex.model.user;
 
 import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
@@ -20,6 +20,10 @@ public class UserGeneration {
 
     public static String randomPassword() {
         return RandomStringUtils.randomAlphanumeric(8, 16) + "$";
+    }
+
+    public User NewUser () {
+        return new User (randomName(),randomEmail(),randomPassword());
     }
 
 }
