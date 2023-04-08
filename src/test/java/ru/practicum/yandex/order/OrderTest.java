@@ -1,4 +1,4 @@
-package ru.practicum.yandex;
+package ru.practicum.yandex.order;
 
 
 import ru.practicum.yandex.model.order.Order;

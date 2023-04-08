@@ -1,4 +1,5 @@
-package ru.practicum.yandex;
+package ru.practicum.yandex.order;
+
 
 public class GetOrderTest {
 

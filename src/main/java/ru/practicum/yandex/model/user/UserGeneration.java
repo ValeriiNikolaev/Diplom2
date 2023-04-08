@@ -4,6 +4,7 @@ import com.github.javafaker.Faker;
 import org.apache.commons.lang3.RandomStringUtils;
 
 import java.util.Locale;
+import java.util.Random;
 
 
 public class UserGeneration {
@@ -24,6 +25,17 @@ public class UserGeneration {
 
     public User NewUser () {
         return new User (randomName(),randomEmail(),randomPassword());
+    }
+
+    public static String getRandomString(int length) {
+        String SALTCHARS = "ABCDEFGHIJKLMNOPQRSTUVWXYZ1234567890";
+        StringBuilder result = new StringBuilder();
+        Random rnd = new Random();
+        while (result.length() < length) {
+            int index = (int) (rnd.nextFloat() * SALTCHARS.length());
+            result.append(SALTCHARS.charAt(index));
+        }
+        return result.toString();
     }
 
 }
