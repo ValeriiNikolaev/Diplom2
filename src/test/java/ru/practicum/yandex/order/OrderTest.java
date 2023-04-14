@@ -2,6 +2,7 @@ package ru.practicum.yandex.order;
 
 
 import io.qameta.allure.junit4.DisplayName;
+import org.junit.After;
 import org.junit.Before;
 import org.junit.Test;
 import ru.practicum.yandex.model.order.Order;
@@ -29,7 +30,7 @@ public class OrderTest {
         order = Order.getOrder();
         orderSteps = new OrderSteps();
         userClient = new UserClient();
-        user = User.getRegister();
+        user = User.getRandomDataRegister();
         isCreate = userClient.create(user)
                 .statusCode(SC_OK).extract().path("success");
         accessToken = userClient.login(UserLogin.getLogin(user))
@@ -37,47 +38,45 @@ public class OrderTest {
         assertTrue(isCreate);
     }
 
-    @Test
-    @DisplayName("Creating an order with ingredients and authorization")
-    public void creatingOrderWithIngredientsAuthorizationTest() {
-        String name = orderSteps.create(order, accessToken)
-                .statusCode(SC_OK).extract().path("name");
-        assertEquals("Флюоресцентный бургер", name);
+    @After
+    public void finish() {
         isDelete = userClient.delete(accessToken)
                 .statusCode(SC_ACCEPTED).extract().path("success");
         assertTrue(isDelete);
     }
 
     @Test
+    @DisplayName("Creating an order with ingredients and authorization")
+    public void createOrderWithIngredientsAuthorizationTest() {
+        String name = orderSteps.create(order, accessToken)
+                .statusCode(SC_OK).extract().path("name");
+        assertEquals("Флюоресцентный бургер", name);
+    }
+
+    @Test
     @DisplayName("Creating an order not ingredients")
-    public void creatingOrderNoIngredientsTest() {
+    public void createOrderNoIngredientsTest() {
         order.setIngredients(new String[]{});
-        String error = orderSteps.create(order,accessToken)
+        String error = orderSteps.create(order, accessToken)
                 .statusCode(SC_BAD_REQUEST).extract().path("message");
         assertEquals("Ingredient ids must be provided", error);
-        isDelete = userClient.delete(accessToken)
-                .statusCode(SC_ACCEPTED).extract().path("success");
-        assertTrue(isDelete);
     }
 
     @Test
     @DisplayName("Creating an order not authorization")
     public void notAuthorizationCreateOrderTest() {
-        String name = orderSteps.create(order,"")
+        String name = orderSteps.create(order, "")
                 .statusCode(SC_OK).extract().path("name");
         assertEquals("Флюоресцентный бургер", name);
     }
 
     @Test
     @DisplayName("Creating an order with an incorrect hash of ingredients")
-    public void creatingOrderWithIncorrectHashIngredients() {
+    public void createOrderWithIncorrectHashIngredients() {
         order.setIngredients(new String[]{"no valid"});
-        orderSteps.create(order,accessToken).statusCode(SC_INTERNAL_SERVER_ERROR);
-        isDelete = userClient.delete(accessToken)
-                .statusCode(SC_ACCEPTED).extract().path("success");
-        assertTrue(isDelete);
-    }
+        orderSteps.create(order, accessToken).statusCode(SC_INTERNAL_SERVER_ERROR);
 
+    }
 
 
 }

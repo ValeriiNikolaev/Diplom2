@@ -20,7 +20,7 @@ public class LoginTest {
 
     @Before
     public void start() {
-        user = User.getRegister();
+        user = User.getRandomDataRegister();
         userClient = new UserClient();
         accessToken = userClient.create(user)
                 .statusCode(SC_OK)
@@ -37,7 +37,7 @@ public class LoginTest {
     @Test
     @DisplayName("login under an existing user")
     public void loginUnderAnExistingUserTest() {
-       boolean isSuccess = userClient.login(UserLogin.getLogin(user))
+        boolean isSuccess = userClient.login(UserLogin.getLogin(user))
                 .statusCode(SC_OK).extract().path("success");
         assertTrue(isSuccess);
     }

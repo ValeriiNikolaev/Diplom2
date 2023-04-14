@@ -24,18 +24,18 @@ public class GetOrderTest {
     UserClient userClient;
     boolean isDelete;
     String accessToken;
-    List actualNumber = new ArrayList<>();
-    List numberOrder = new ArrayList<>();
+    List<Object> actualNumber = new ArrayList<>();
+    List<Object> numberOrder = new ArrayList<>();
 
     @Before
     public void start() throws IndexOutOfBoundsException {
-        user = User.getRegister();
+        user = User.getRandomDataRegister();
         userClient = new UserClient();
         order = Order.getOrder();
         orderSteps = new OrderSteps();
         accessToken = userClient.create(user)
                 .statusCode(SC_OK).extract().path("accessToken");
-        numberOrder.add(0,orderSteps.create(order,accessToken)
+        numberOrder.add(0, orderSteps.create(order, accessToken)
                 .statusCode(SC_OK).extract().path("order.number"));
     }
 
@@ -51,7 +51,7 @@ public class GetOrderTest {
     public void getOrderAuthorizationUserTest() {
         actualNumber.add(orderSteps.getOrders(accessToken)
                 .statusCode(SC_OK).extract().path("orders.number"));
-        assertEquals(actualNumber.get(0),numberOrder);
+        assertEquals(actualNumber.get(0), numberOrder);
     }
 
     @Test

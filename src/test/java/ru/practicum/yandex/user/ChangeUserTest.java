@@ -22,7 +22,7 @@ public class ChangeUserTest {
 
     @Before
     public void start() {
-        user = User.getRegister();
+        user = User.getRandomDataRegister();
         userClient = new UserClient();
         isCreate = userClient.create(user)
                 .statusCode(SC_OK).extract().path("success");
@@ -42,7 +42,7 @@ public class ChangeUserTest {
     @DisplayName("authorization and email change")
     public void authorizationChangeEmailTest() {
         user.setEmail(UserGeneration.randomEmail());
-        boolean isTrue = userClient.change(accessToken,user)
+        boolean isTrue = userClient.change(accessToken, user)
                 .statusCode(SC_OK).extract().path("success");
         assertTrue(isTrue);
     }
@@ -51,7 +51,7 @@ public class ChangeUserTest {
     @DisplayName("authorization and password change")
     public void authorizationChangePasswordTest() {
         user.setPassword(UserGeneration.randomPassword());
-        boolean isTrue = userClient.change(accessToken,user)
+        boolean isTrue = userClient.change(accessToken, user)
                 .statusCode(SC_OK).extract().path("success");
         assertTrue(isTrue);
     }
@@ -60,7 +60,7 @@ public class ChangeUserTest {
     @DisplayName("authorization and name change")
     public void authorizationChangeNameTest() {
         user.setName(UserGeneration.randomName());
-        boolean isTrue = userClient.change(accessToken,user)
+        boolean isTrue = userClient.change(accessToken, user)
                 .statusCode(SC_OK).extract().path("success");
         assertTrue(isTrue);
     }
@@ -78,7 +78,7 @@ public class ChangeUserTest {
     @DisplayName("No authorization and password change")
     public void noAuthorizationChangePasswordTest() {
         user.setPassword(UserGeneration.randomPassword());
-        String error = userClient.change(noToken,user)
+        String error = userClient.change(noToken, user)
                 .statusCode(SC_UNAUTHORIZED).extract().path("message");
         assertEquals("You should be authorised", error);
     }
@@ -87,11 +87,10 @@ public class ChangeUserTest {
     @DisplayName("No authorization and name change")
     public void noAuthorizationChangeNameTest() {
         user.setName(UserGeneration.randomName());
-        String error = userClient.change(noToken,user)
+        String error = userClient.change(noToken, user)
                 .statusCode(SC_UNAUTHORIZED).extract().path("message");
         assertEquals("You should be authorised", error);
     }
-
 
 
 }

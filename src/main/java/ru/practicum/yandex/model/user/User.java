@@ -38,17 +38,13 @@ public class User {
         this.email = email;
     }
 
-    public static User getRegister(){
+    public static User getRandomDataRegister() {
         return new User(
                 UserGeneration.randomName(),
                 UserGeneration.randomPassword(),
                 UserGeneration.randomEmail()
         );
     }
-
-
-
-
 
 
 }

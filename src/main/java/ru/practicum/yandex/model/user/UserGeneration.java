@@ -23,8 +23,8 @@ public class UserGeneration {
         return RandomStringUtils.randomAlphanumeric(8, 16) + "$";
     }
 
-    public User NewUser () {
-        return new User (randomName(),randomEmail(),randomPassword());
+    public User newUser() {
+        return new User(randomName(), randomEmail(), randomPassword());
     }
 
     public static String getRandomString(int length) {
