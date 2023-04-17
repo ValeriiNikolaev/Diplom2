@@ -52,22 +52,23 @@ public class CreateUserTest {
     public void createSecondRegisteredUserTest() {
         userClient.create(user)
                 .statusCode(SC_OK).extract().path("success");
+        accessToken = userClient.login(UserLogin.getLogin(user))
+                .statusCode(SC_OK).extract().path("accessToken");
         String error = userClient.create(user)
                 .statusCode(SC_FORBIDDEN).extract().path("message");
         assertEquals("User already exists", error);
-        accessToken = userClient.login(UserLogin.getLogin(user))
-                .statusCode(SC_OK).extract().path("accessToken");
+
     }
 
     @Test
     @DisplayName("Registration of a user without a name")
     public void createUserNotNameTest() {
         user.setName("");
+        accessToken = userClient.login(UserLogin.getLogin(user))
+                .extract().path("accessToken");
         String error = userClient.create(user)
                 .statusCode(SC_FORBIDDEN).extract().path("message");
         assertEquals("Email, password and name are required fields", error);
-        accessToken = userClient.login(UserLogin.getLogin(user))
-                .extract().path("accessToken");
 
     }
 
